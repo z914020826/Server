@@ -1,98 +1,326 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS Server
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+基于 NestJS 构建的 RESTful API 服务器，使用 Prisma ORM 和 MySQL 数据库。
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 技术栈
 
-## Description
+- **框架**: [NestJS](https://nestjs.com/) v11
+- **语言**: TypeScript
+- **ORM**: [Prisma](https://www.prisma.io/) v6
+- **数据库**: MySQL
+- **验证**: class-validator, class-transformer
+- **包管理**: pnpm
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 项目特性
 
-## Project setup
+- ✅ 统一的 API 响应格式
+- ✅ 全局参数校验，返回详细的错误信息
+- ✅ 全局异常处理
+- ✅ TypeScript + ESM 模块系统
+- ✅ Prisma ORM 集成
+- ✅ RESTful API 设计
 
-```bash
-$ pnpm install
+## 项目结构
+
+```
+src/
+├── common/              # 公共模块
+│   ├── filter/         # 异常过滤器
+│   ├── transform/      # 响应转换器
+│   └── prisma.service.ts
+├── module/             # 业务模块
+│   └── user/          # 用户模块
+│       ├── dto/       # 数据传输对象
+│       ├── user.controller.ts
+│       ├── user.service.ts
+│       └── user.module.ts
+├── app.module.ts       # 根模块
+└── main.ts            # 应用入口
 ```
 
-## Compile and run the project
+## 环境要求
+
+- Node.js >= 18
+- pnpm >= 8
+- MySQL >= 8.0
+
+## 快速开始
+
+### 1. 安装依赖
 
 ```bash
-# development
-$ pnpm run start
-
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+pnpm install
 ```
 
-## Run tests
+### 2. 配置环境变量
+
+创建 `.env` 文件：
+
+```env
+DATABASE_URL="mysql://user:password@localhost:3306/database_name"
+PORT=3000
+```
+
+### 3. 数据库迁移
 
 ```bash
-# unit tests
-$ pnpm run test
+# 生成 Prisma Client
+pnpm run prisma:generate
 
-# e2e tests
-$ pnpm run test:e2e
+# 运行数据库迁移
+pnpm run prisma:migrate
 
-# test coverage
-$ pnpm run test:cov
+# 或者直接推送 schema（开发环境）
+pnpm run prisma:push
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4. 启动项目
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+# 开发模式（热重载）
+pnpm run start:dev
+
+# 生产模式
+pnpm run start:prod
+
+# 调试模式
+pnpm run start:debug
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+应用将在 `http://localhost:3000` 启动。
 
-## Resources
+## API 文档
 
-Check out a few resources that may come in handy when working with NestJS:
+### 用户模块
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+#### 创建用户
 
-## Support
+```http
+POST /user
+Content-Type: application/json
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+{
+  "name": "张三",
+  "email": "zhangsan@example.com",
+  "password": "password123"
+}
+```
 
-## Stay in touch
+**响应示例**:
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "id": 1,
+    "name": "张三",
+    "email": "zhangsan@example.com",
+    "createdAt": "2024-01-01T00:00:00.000Z",
+    "updatedAt": "2024-01-01T00:00:00.000Z"
+  }
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+#### 获取所有用户
 
-## License
+```http
+GET /user
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+#### 获取单个用户
+
+```http
+GET /user/:id
+```
+
+#### 更新用户
+
+```http
+PATCH /user/:id
+Content-Type: application/json
+
+{
+  "name": "李四",
+  "email": "lisi@example.com"
+}
+```
+
+#### 删除用户
+
+```http
+DELETE /user/:id
+```
+
+## 响应格式
+
+所有 API 响应都遵循统一的格式：
+
+### 成功响应
+
+```json
+{
+  "code": 200,
+  "message": "success",
+  "data": { ... }
+}
+```
+
+### 错误响应
+
+#### 参数校验失败
+
+```json
+{
+  "code": 400,
+  "message": "参数校验失败",
+  "data": [
+    {
+      "field": "email",
+      "message": "email must be an email",
+      "value": "invalid-email"
+    },
+    {
+      "field": "password",
+      "message": "password must be longer than or equal to 8 characters",
+      "value": "123"
+    }
+  ]
+}
+```
+
+#### 其他错误
+
+```json
+{
+  "code": 404,
+  "message": "用户 ID 1 不存在",
+  "data": null
+}
+```
+
+## 参数校验
+
+项目使用 `class-validator` 进行参数校验，支持以下验证规则：
+
+- `@IsString()` - 字符串类型
+- `@IsEmail()` - 邮箱格式
+- `@IsNotEmpty()` - 非空
+- `@MinLength(n)` - 最小长度
+- `@MaxLength(n)` - 最大长度
+- `@IsOptional()` - 可选字段
+
+### 用户 DTO 示例
+
+```typescript
+export class CreateUserDto {
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(8)
+  @MaxLength(32)
+  password: string;
+}
+```
+
+## Prisma 命令
+
+```bash
+# 生成 Prisma Client
+pnpm run prisma:generate
+
+# 创建并应用迁移
+pnpm run prisma:migrate
+
+# 部署迁移（生产环境）
+pnpm run prisma:migrate:deploy
+
+# 打开 Prisma Studio（数据库可视化工具）
+pnpm run prisma:studio
+
+# 推送 schema 到数据库（开发环境）
+pnpm run prisma:push
+```
+
+## 开发
+
+### 代码格式化
+
+```bash
+pnpm run format
+```
+
+### 代码检查
+
+```bash
+pnpm run lint
+```
+
+### 运行测试
+
+```bash
+# 单元测试
+pnpm run test
+
+# 监听模式
+pnpm run test:watch
+
+# 覆盖率
+pnpm run test:cov
+
+# E2E 测试
+pnpm run test:e2e
+```
+
+## 构建
+
+```bash
+# 构建项目
+pnpm run build
+
+# 构建后的文件在 dist/ 目录
+```
+
+## 配置说明
+
+### ValidationPipe 配置
+
+项目在 `main.ts` 中配置了全局 ValidationPipe：
+
+- `transform: true` - 自动转换类型
+- `whitelist: true` - 自动去除未定义的属性
+- `forbidNonWhitelisted: true` - 禁止未定义的属性
+- 自定义错误响应格式，包含字段名、错误消息和值
+
+### 全局拦截器
+
+- `TransformInterceptor` - 统一响应格式转换
+
+### 全局异常过滤器
+
+- `HttpExceptionFilter` - 统一异常处理和响应格式
+
+## 数据库 Schema
+
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+```
+
+## 许可证
+
+[MIT licensed](LICENSE)
