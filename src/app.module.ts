@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
-import { HelloModule } from './module/hello/hello.module';
-import { UserModule } from './module/user/user.module';
+import { UserModule } from './module/user/user.module.js';
 @Module({
-  imports: [HelloModule, UserModule],
+  imports: [UserModule],
 })
-export class AppModule {}
+export class AppModule { }
